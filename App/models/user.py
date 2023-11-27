@@ -3,30 +3,26 @@ from flask_login import UserMixin
 from App.database import db
 
 class User(db.Model, UserMixin):
+    __abstract__ = True #Cannot be instantiated
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String, nullable=False, unique=True)
+    user_type = db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    # overall_rank = db.Column(db.Integer, default=0, nullable=False)
+    email = db.Column(db.String(200), nullable=False)
 
-    competitions = db.relationship("UserCompetition", lazy=True, backref=db.backref("competitions"), cascade="all, delete-orphan")
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, email):
         self.username = username
-        self.set_password(password)
+        self.email = email
+        self.set_password(password)        
 
     def get_json(self):
         return{
             'id': self.id,
-            'username': self.username
-            # 'competitions': self.competitions
+            'username': self.username,
+            'email': self.email
         }
-        
-    def toDict(self):
-        return{
-            'id': self.id,
-            'username': self.username
-        }
-        
+
     def set_password(self, password):
         """Create hashed password."""
         self.password = generate_password_hash(password, method='sha256')
@@ -35,5 +31,6 @@ class User(db.Model, UserMixin):
         """Check hashed password."""
         return check_password_hash(self.password, password)
 
-
-
+    def __repr__(self):
+        return f'<User {self.id} {self.username} {self.email}'
+    
