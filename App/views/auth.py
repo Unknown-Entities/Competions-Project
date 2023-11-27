@@ -8,6 +8,7 @@ from App.controllers import (
     create_user,
     jwt_authenticate,
     get_all_users,
+    get_all_users_json,
     login 
 )
 
@@ -31,14 +32,13 @@ def get_user_page():
 def identify_page():
     return jsonify({'message': f"username: {current_user.username}, id : {current_user.id}"})
 
-
 @auth_views.route('/login', methods=['POST'])
 def login_action():
-    data = request.form
+    data = request.json
     user = login(data['username'], data['password'])
     if user:
         login_user(user)
-        return 'user logged in!'
+        return 'user logged in'
     return 'bad username or password given', 401
 
 @auth_views.route('/logout', methods=['GET'])
