@@ -1,16 +1,26 @@
-from App.database import db
+from .user import User
+from App.database import db 
 
-class UserCompetition(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    comp_id = db.Column(db.Integer, db.ForeignKey('competition.id'), nullable=False)
-    user_id =  db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    rank = db.Column(db.Integer, nullable=False)
+class User_Competition(User):
+    __tablename__ = 'user_competition'
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    profile = db.relationship('Profile', backref=db.backref('user_competition', lazy='joined'))
+    competition = db.relationship('Competition', backref=db.backref('competitor', lazy='joined'))
 
-    def toDict(self):
-        res = {
-            "id": self.id,
-            "comp_id": self.comp_id,
-            "user_id": self.user_id,
-            "rank": self.rank
-        } 
-        return res
+    def __init__(self, username, password, email):
+        self.username = username
+        self.set_password(password)
+        self.user_type = "user_competition"
+        self.email = email
+
+
+    def __repr__(self):
+        return f'<user_competition {self.id} {self.username} {self.email}>'
+    
+    def toJSON(self):
+        return{
+            'id': self.id,
+            'username': self.username,
+            'type': 'user_competition',
+            'email': self.email
+        }
