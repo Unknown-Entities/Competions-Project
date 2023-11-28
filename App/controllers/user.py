@@ -1,4 +1,5 @@
-from App.models import User, Competition, User_Competition
+from App.models import User
+#, Competition, User_Competition
 from App.database import db
 
 def create_user(username, password, email):
@@ -6,11 +7,9 @@ def create_user(username, password, email):
     try:
         db.session.add(newuser)
         db.session.commit()
-        return True
-    except Exception as e:
-        db.session.rollback()
-        return False
-
+        return newuser
+    except:
+        return None
 
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()
@@ -36,57 +35,40 @@ def update_user(id, username):
         return db.session.commit()
     return None
 
+# def get_ranked_users():
+#    return User.query.order_by(User.rank.asc()).all()
 
-    
-def get_ranked_users():
-    return User.query.order_by(User.rank.asc()).all()
+# def add_user_to_comp(user_id, comp_id, rank):
+#    user = User.query.get(user_id)
+#    comp = Competition.query.get(comp_id)
+#   user_comp = User_Competition.query.filter_by(user_id=user.id, comp_id=comp.id).first()
+#    if user_comp:
+#        return False        
+#    if user and comp:
+#        user_comp = User_Competition(user_id=user.id, comp_id=comp.id, rank = rank)
+#        try:
+#           db.session.add(user_comp)
+#          db.session.commit()
+#            return True
+#        except Exception as e:
+#            print("FAILURE")
+#            db.session.rollback()
+#            return False            
+#        print("success")
+#    return 'Error adding user to competition'
 
-
-
-def add_user_to_comp(user_id, comp_id, rank):
-
-    user = User.query.get(user_id)
-    comp = Competition.query.get(comp_id)
-
-    user_comp = User_Competition.query.filter_by(user_id=user.id, comp_id=comp.id).first()
-    if user_comp:
-        return False
-        
-    if user and comp:
-        user_comp = User_Competition(user_id=user.id, comp_id=comp.id, rank = rank)
-        try:
-            db.session.add(user_comp)
-            db.session.commit()
-            return True
-        except Exception as e:
-            print("FAILURE")
-            db.session.rollback()
-            return False
-            
-        print("success")
-        
-
-    return 'Error adding user to competition'
-
-
-def get_user_competitions(user_id):
-    user = User.query.get(user_id)
-    
-    
-    if user:
-        userComps = user.competitions
-        competitions = [Competition.query.get(inst.comp_id) for inst in userComps]
+# def get_user_competitions(user_id):
+#    user = User.query.get(user_id)    
+#    if user:
+#        userComps = user.competitions
+#        competitions = [Competition.query.get(inst.comp_id) for inst in userComps]
     # print(competitions)
-        if competitions:
-            results =  [c.toDict() for c in competitions] 
-            return results
-        else:
-            return competitions
-    return ("User not Found")
-
-
-
-
+#        if competitions:
+#            results =  [c.toDict() for c in competitions] 
+#            return results
+#        else:
+#            return competitions
+#    return ("User not Found")
 
 # def update_ranks():
 #   users = User.query.order_by(User.rank.asc()).limit(20).all()
@@ -103,11 +85,9 @@ def get_user_competitions(user_id):
 #     if u.rank != ranks[u.id]:
 #       send_notification(u, f"Your rank changed from {ranks[u.id]} to {u.rank}")
     
-
-def get_user_rankings(user_id):
-    users = User.query.get(user_id)
-    userComps = users.competitions
-
-    ranks = [UserCompetition.query.get(a.id).toDict() for a in userComps]
-    return ranks
+#def get_user_rankings(user_id):
+#    users = User.query.get(user_id)
+#    userComps = users.competitions
+#    ranks = [UserCompetition.query.get(a.id).toDict() for a in userComps]
+#    return ranks
     
