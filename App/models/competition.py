@@ -9,7 +9,7 @@ class Competition(db.Model):
     location = db.Column(db.String(120), nullable=False)
 
     hosts = db.relationship("CompetitionHost", lazy=True, backref=db.backref("hosts"), cascade="all, delete-orphan")
-    participants = db.relationship("UserCompetition", lazy=True, backref=db.backref("users"), cascade="all, delete-orphan")
+    participants = db.relationship("User_Competition", lazy=True, backref=db.backref("users"), cascade="all, delete-orphan")
 
 
     def __init__(self, name, location):

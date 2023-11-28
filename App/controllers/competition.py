@@ -1,4 +1,4 @@
-from App.models import Competition,User, UserCompetition
+from App.models import Competition,User, User_Competition
 from App.database import db
 
 def create_competition(name, location):
@@ -37,7 +37,7 @@ def add_results(user_id, comp_id, rank):
         
             
     if user and Comp:
-        compParticipant = UserCompetition(user_id = user.id, comp_id = Comp.id, rank=rank)
+        compParticipant = User_Competition(user_id = user.id, comp_id = Comp.id, rank=rank)
 
 
         try:

@@ -1,9 +1,9 @@
 from .user import User
 from App.database import db 
 
-class Student(User):
+class Admin(User):
     __tablename__ = 'admin'
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
     profile = db.relationship('Profile', backref=db.backref('admin', lazy='joined'))
     competition = db.relationship('Competition', backref=db.backref('competitor', lazy='joined'))
 

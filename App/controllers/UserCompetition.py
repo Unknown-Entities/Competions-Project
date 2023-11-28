@@ -1,8 +1,8 @@
-from App.models import Competition,User, UserCompetition
+from App.models import Competition,User, User_Competition
 from App.database import db
 
 def findCompUser(user_id, comp_id):
-    user = UserCompetition.query.get(user_id)
+    user = User_Competition.query.get(user_id)
 
     if user:
         comp = user.query.get(comp_id)

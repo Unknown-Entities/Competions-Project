@@ -5,3 +5,4 @@ from .competition import *
 from .competition_host import *
 from .user_competition import *
 from .notification import *
+from .ranking import *

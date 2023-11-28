@@ -18,7 +18,7 @@ from App.controllers import (
     add_user_to_comp
 )
 
-admin_views = Blueprint('notification_views', __name__, template_folder='../templates')
+admin_views = Blueprint('admin_views', __name__, template_folder='../templates')
 
 @admin_views.route('/users', methods=['POST'])
 def create_admin():
