@@ -1,8 +1,8 @@
 from App.models import Admin
 from App.database import db
 
-def create_admin(username, password):
-    newAdmin = Admin(username=username, password=password)
+def create_admin(username, password, email):
+    newAdmin = Admin(username=username, password=password, email=email)
     db.session.add(newAdmin)
     db.session.commit()
     return newAdmin
