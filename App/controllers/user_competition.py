@@ -25,12 +25,12 @@ def update_competition_user(id, username):
         return db.session.commit()
     return None
 
-# def findCompUser(user_id, comp_id):
-#    user = User_Competition.query.get(user_id)
-#    if user:
-#        comp = user.query.get(comp_id)
-#        if comp:
-#            print("yay")
-#            return True    
-#    print("no bueno")
-#    return False
+def findCompUser(user_id, comp_id):
+    user = User_Competition.query.get(user_id)
+    if user:
+        comp = user.query.get(comp_id)
+        if comp:
+            print("yay")
+            return True    
+    print("no bueno")
+    return False
