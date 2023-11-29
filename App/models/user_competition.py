@@ -4,7 +4,7 @@ from App.database import db
 class User_Competition(User):
     __tablename__ = 'user_competition'
     id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
-    profile = db.Column(db.Integer, db.ForeignKey('profile.profileID'), nullable=False)
+    profile = db.Column(db.Integer, db.ForeignKey('profile.ID'), nullable=False)
     comp_id = db.Column(db.Integer, db.ForeignKey('competition.id'), nullable=False)
 
     def __init__(self, username, password, email):

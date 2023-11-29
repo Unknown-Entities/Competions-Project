@@ -1,5 +1,4 @@
-from App.models import User
-#, Competition, User_Competition
+from App.models import User, Competition, User_Competition
 from App.database import db
 
 def create_user(username, password, email):
@@ -34,6 +33,14 @@ def update_user(id, username):
         db.session.add(user)
         return db.session.commit()
     return None
+
+def obtain_user_profile(ID):
+    User_profile = User.query.get(ID)
+
+    if User_profile:
+        return User_profile.toJSON()
+
+    return f'{ID} This user`s profile ID cannot be not found'
 
 def get_ranked_users():
     return User.query.order_by(User.rank.asc()).all()

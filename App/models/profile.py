@@ -2,25 +2,27 @@ from App.database import db
 from .user import User
 
 class Profile(db.Model):
-    profileID = db.Column(db.Integer, primary_key=True)
-    studentID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    ID = db.Column(db.Integer, primary_key=True)
+    user_compID = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(120), nullable=False)
     globalRanking = db.Column(db.Integer, db.ForeignKey('ranking.rank'), nullable=False)
-    university = db.Column(db.String(300), nullable=False)
+ #   university = db.Column(db.String(300), nullable=False)
 
-    def __init__(self, profileID, studentID, name, university):
-        self.profileID = profileID
-        self.studentID = studentID
+    def __init__(self, ID, user_compID, name): #university
+        self.ID = ID
+        self.user_compID = user_compID
         self.name = name
-        self.university = university
+    #    self.university = university
 
     def __repr__(self):
-        return f'<Profile name: {self.name} university: {self.university} Global ranking: {self.globalRanking}>'
+        return f'<Profile name: {self.name} Global ranking: {self.globalRanking}>'
+    #university: {self.university}
 
     def toJSON(self):
         return {
-            'profileID': self.profileID,
-            'studentID': self.studentID,
-            'name': self.name,
-            'university': self.university
+            'ID': self.ID,
+            'user_compID': self.user_compID,
+            'name': self.name
+          #  'university': self.university
         }
+    
