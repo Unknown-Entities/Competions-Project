@@ -4,8 +4,8 @@ from App.database import db
 class User_Competition(User):
     __tablename__ = 'user_competition'
     id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
-    profile = db.relationship('Profile', backref=db.backref('user_competition', lazy='joined'))
-    competition = db.relationship('Competition', backref=db.backref('competitor', lazy='joined'))
+    profile = db.Column(db.Integer, db.ForeignKey('profile.profileID'), nullable=False)
+    comp_id = db.Column(db.Integer, db.ForeignKey('competition.id'), nullable=False)
 
     def __init__(self, username, password, email):
         self.username = username

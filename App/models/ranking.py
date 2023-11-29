@@ -5,10 +5,13 @@ from flask_login import UserMixin
 
 class Ranking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    profile_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    profile_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(255), nullable=False)
     points = db.Column(db.Integer, nullable=False)
     rank = db.Column(db.Integer, nullable=False)
+
+    globalRanking = db.relationship('Profile', backref=db.backref('ranking', lazy='joined'))
+    notifications = db.relationship('Notification', backref=db.backref('ranking', lazy='joined'))
 
     def __init__(self, profile_id, name, points, rank):
         self.profile_id = profile_id

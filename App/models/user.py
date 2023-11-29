@@ -10,6 +10,10 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), nullable=False)
 
+    competitions = db.relationship("User_Competition", lazy=True, backref=db.backref("user"), cascade="all, delete-orphan")
+    profiles = db.relationship("Profile", lazy=True, backref=db.backref("user"), cascade="all, delete-orphan")
+    admins = db.relationship("Admin", lazy=True, backref=db.backref("user"), cascade="all, delete-orphan")
+    notifications = db.relationship("Notification", lazy=True, backref=db.backref("user"), cascade="all, delete-orphan")
 
     def __init__(self, username, password, email):
         self.username = username

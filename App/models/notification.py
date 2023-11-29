@@ -4,8 +4,8 @@ from .ranking import Ranking
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, db.ForeignKey(User.id))
-    rank = db.Column(db.Integer, db.ForeignKey(Ranking.id))
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    rank = db.Column(db.Integer, db.ForeignKey('ranking.id'))
     message = db.Column(db.String, nullable=False)
     read = db.Column(db.Boolean, default=False)
     
