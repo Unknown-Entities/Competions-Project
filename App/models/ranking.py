@@ -10,7 +10,7 @@ class Ranking(db.Model):
     points = db.Column(db.Integer, nullable=False)
     rank = db.Column(db.Integer, nullable=False)
 
-    globalRanking = db.relationship('Profile', backref=db.backref('ranking', lazy='joined'))
+    Ranking = db.relationship('Profile', backref=db.backref('ranking', lazy='joined'))
     notifications = db.relationship('Notification', backref=db.backref('ranking', lazy='joined'))
 
     def __init__(self, profile_id, name, points, rank):

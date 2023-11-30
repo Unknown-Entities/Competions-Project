@@ -14,7 +14,6 @@ from App.controllers import (
     get_all_users,
     get_all_users_json,
     jwt_required, 
-    get_ranked_users,
     get_user_competitions,
     login
 

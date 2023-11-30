@@ -5,18 +5,15 @@ class Profile(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     user_compID = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(120), nullable=False)
-    globalRanking = db.Column(db.Integer, db.ForeignKey('ranking.rank'), nullable=False)
- #   university = db.Column(db.String(300), nullable=False)
+    Ranking = db.Column(db.Integer, db.ForeignKey('ranking.rank'), nullable=False)
 
-    def __init__(self, ID, user_compID, name): #university
+    def __init__(self, ID, user_compID, name):
         self.ID = ID
         self.user_compID = user_compID
         self.name = name
-    #    self.university = university
 
     def __repr__(self):
-        return f'<Profile name: {self.name} Global ranking: {self.globalRanking}>'
-    #university: {self.university}
+        return f'<Profile name: {self.name} Ranking: {self.Ranking}>'
 
     def toJSON(self):
         return {
