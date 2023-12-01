@@ -6,11 +6,14 @@ from App.database import db, create_db
 from App.models import User, User_Competition, Admin, Notification, Ranking, Profile, Competition 
 from App.controllers import (
     create_user,
+    create_admin,
     get_all_users_json,
     login,
     get_user,
+    get_admin,
     get_user_by_username,
     update_user,
+    update_admin,
     get_user_competitions,
     create_competition,
     add_user_to_comp,
@@ -130,5 +133,14 @@ class UsersIntegrationTests(unittest.TestCase):
         users = get_user_rankings(1)
         
         self.assertListEqual([{"id":1, "comp_id": 1 , "user_id": 1, "rank": 4}], users)
+    
+    def test_update_admin(self):
+        update_admin(1, "freeport")
+        user = get_admin(1)
+        assert user.username == "freeport"
 
-
+    def test_admin_add_comp(self):
+        user = create_admin("maraval", "maravalpass", "maraval@gmail.com")
+        comp = user.add_comp("walktime", "2 dabloons", "NA", 21)
+        self.assertIsNotNone(comp, "")
+    

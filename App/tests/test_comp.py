@@ -63,7 +63,7 @@ def empty_db():
 
 
 def test_authenticate():
-    user = create_user("bob", "bobpass")
+    user = create_user("bob", "bobpass", "bob@gmail.com")
     assert login("bob", "bobpass") != None
 
 
@@ -92,5 +92,4 @@ class CompIntegrationTests(unittest.TestCase):
         Competition_json = get_competition_by_id(1).get_json()
         self.assertDictEqual(Competition_json, {"id":1, "name":"Walktime", "location": "Port of Spain"})
         
-
-
+    
