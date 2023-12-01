@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
 from App.database import db, create_db
-from App.models import User
+from App.models import User, User_Competition, Admin, Notification, Ranking, Profile, Competition 
 from App.controllers import (
     create_user,
     get_all_users_json,
@@ -24,27 +24,52 @@ LOGGER = logging.getLogger(__name__)
    Unit Tests
 '''
 class UserUnitTests(unittest.TestCase):
-
+    
+    # Test for average base user
     def test_new_user(self):
-        user = User("bob", "bobpass")
+        user = User("bob", "bobpass", "bob@gmail.com")
         assert user.username == "bob"
+        assert user.email == "bob@gmail.com"
 
-    # pure function no side effects or integrations called
+    # Pure function no side effects or integrations called  
     def test_get_json(self):
-        user = User("bob", "bobpass")
+        user = User("bob", "bobpass", "bob@gmail.com")
         user_json = user.get_json()
         self.assertDictEqual(user_json, {"id":None, "username":"bob"})
     
     def test_hashed_password(self):
         password = "mypass"
         hashed = generate_password_hash(password, method='sha256')
-        user = User("bob", password)
+        user = User("bob", password, "bob@gmail.com")
         assert user.password != password
 
     def test_check_password(self):
         password = "mypass"
-        user = User("bob", password)
+        user = User("bob", password, "bob@gmail.com")
         assert user.check_password(password)
+
+    # Test for new admin user
+    def test_new_admin_user(self):
+        admin = Admin("jake", "jakepass1", "jake@gmail.com")
+        assert admin.username == "jake"
+        assert admin.email == "jake@gmail.com"
+
+    # pure function no side effects or integrations called
+    def test_get_admin_json(self):
+        admin = Admin("jake", "jakepass1", "jake@gmail.com")
+        admin_json = admin.get_json()
+        self.assertDictEqual(admin_json, {"id":None, "username":"jake"})
+    
+    def test_admin_hashed_password(self):
+        password = "myadminpass"
+        hashed = generate_password_hash(password, method='sha256')
+        admin = Admin("jake", password, "jake@gmail.com")
+        assert admin.password != password
+
+    def test_check_admin_password(self):
+        password = "myadminpass"
+        admin = Admin("jake", password, "jake@gmail.com")
+        assert admin.check_password(password)
 
 '''
     Integration Tests
@@ -61,13 +86,13 @@ def empty_db():
 
 
 def test_authenticate():
-    user = create_user("bob", "bobpass")
+    user = create_user("bob", "bobpass", "bob@gmail.com")
     assert login("bob", "bobpass") != None
 
 class UsersIntegrationTests(unittest.TestCase):
 
     def test_create_user(self):
-        user = create_user("rick", "bobpass")
+        user = create_user("rick", "rickpass", "rick@gmail.com")
         assert user.username == "rick"
 
     def test_get_all_users_json(self):
