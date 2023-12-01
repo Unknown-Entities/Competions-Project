@@ -72,9 +72,4 @@ def user_login_api():
     return jsonify(error='bad username or password given'), 401
   return jsonify(access_token=token)
 
-@auth_views.route('/api/identify', methods=['GET'])
-@jwt_required()
-def identify_user_action():
-    return jsonify({'message': f"username: {jwt_current_user.username}, id : {jwt_current_user.id}"})
-
 

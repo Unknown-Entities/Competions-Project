@@ -34,29 +34,5 @@ def update_user(id, username):
         return db.session.commit()
     return None
 
-def obtain_user_profile(ID):
-    User_profile = User.query.get(ID)
 
-    if User_profile:
-        return User_profile.toJSON()
-
-    return f'{ID} This user`s profile ID cannot be not found'
-
-#def get_ranked_users():
-#    return User.query.order_by(User.rank.asc()).all()
-
-# def update_ranks():
-#   users = User.query.order_by(User.rank.asc()).limit(20).all()
-  
-#   # Store current ranks
-#   ranks = {u.id: u.rank for u in users}
-  
-#   # Update ranks
-#   db.session.query(User).update({User.rank: User.rank + 1})  
-#   db.session.commit()
-
-#   # Check if ranks changed
-#   for u in users:
-#     if u.rank != ranks[u.id]:
-#       send_notification(u, f"Your rank changed from {ranks[u.id]} to {u.rank}")
     

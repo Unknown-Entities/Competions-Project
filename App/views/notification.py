@@ -5,30 +5,33 @@ from flask_login import current_user, login_required
 from .index import index_views
 
 from App.controllers import (
-    generate_notification,
+    jwt_required,
     notify,
-    get_all_notifications,
-    get_all_notifications,
+    calculate_ranking,
+    get_top_20_users_rank,
     get_all_notifications_json
 )
 
 notification_views = Blueprint('notification_views', __name__, template_folder='../templates')
 
-#@notification_views.route('/notfications', methods=['GET'])
-#@jwt_required()
-#def get_notifing_ranks_action():
-#    check = notify_rank()
-#    return jsonify(check), 200
-
-@notification_views.route('/notifications', methods=['GET'])
+@notification_views.route('/notifications/20', methods=['GET'])
 @jwt_required()
-def get_send_notification_action():
-    check = notify(1, "Hi")  # type: ignore
-    if check:
-      return jsonify({"message": f"Notification sent"}), 200
-    return jsonify({"error": f"Notification sent"}), 401
+def notify_top_ranks():
+    if jwt_current_user.user_type == "Admin":
+      check = get_top_20_users_rank()
+      calculate_ranking()
+      if check:
+        rank_list = len(check) + 1
+        for num in range(1, rank_list):
+          message = notify(num, "Your rank has been updated!")
+        return jsonify({"message": f"Notifications sent"}), 200
+      return jsonify({"error": f"Notifications failed to send"}), 401
+    return (jsonify({'error': f"only admins can notify users"}),500)
 
-@notification_views.route('/get_notfiy', methods=['Get'])
+@notification_views.route('/notifications', methods=['Get'])
+@jwt_required()
 def get_all_notifications():
-   notif = get_all_notifications_json()
-   return jsonify(notif)                 
+  if jwt_current_user.user_type == "Admin":
+    notif = get_all_notifications_json()
+    return jsonify(notif)
+  return (jsonify({'error': f"only admins can check sent notifications"}),500)              

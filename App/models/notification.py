@@ -18,9 +18,9 @@ class Notification(db.Model):
 
     def get_json(self):
         return {
-            'id': self.id,
-            'userId': self.userId,
-            'message': self.message,
-            'rank': self.rank,
-            'read': self.read
+            'Message ID': self.id,
+            'User ID': self.userId,
+            'Message': self.message,
+            'Rank': self.rank,
+            'Read': self.read
         }

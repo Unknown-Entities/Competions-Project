@@ -5,13 +5,10 @@ from flask_login import current_user, login_required
 from .index import index_views
 
 from App.controllers import (
-    #create_profile,
     get_profile,
     get_profile_ranking,
     get_user_competitions,
     jwt_required,
-    #update_profile,
-    findCompUser
 )
 
 profile_views = Blueprint('profile_views', __name__, template_folder='../templates')

@@ -26,5 +26,5 @@ def  get_all_notifications_json():
     get_notfiy = get_all_notifications()
     if not get_notfiy:
         return None
-    get_notfiy = [notfi.toJSON() for notfi in get_notfiy]
+    get_notfiy = [notfi.get_json() for notfi in get_notfiy]
     return get_notfiy
