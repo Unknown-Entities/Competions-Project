@@ -44,5 +44,5 @@ def create_user_endpoint():
     user_id = get_user_by_username(data['username'])
     create_profile(user_id.id, data['username'])
     add_ranking(user_id.id, data['username'])
-    return jsonify({'message': f"user {data['username']} created"})
+    return jsonify({'message': f"user {data['username']} created"}), 201
     

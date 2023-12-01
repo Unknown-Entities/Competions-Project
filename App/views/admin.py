@@ -15,7 +15,7 @@ admin_views = Blueprint('admin_views', __name__, template_folder='../templates')
 def create_admin_action():
     data = request.json
     create_admin(data['username'], data['password'], data['email'])
-    return jsonify({'message': f"admin {data['username']} created"})
+    return jsonify({'message': f"admin {data['username']} created"}), 201
 
 
 
