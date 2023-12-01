@@ -11,7 +11,6 @@ def create_admin(username, password, email):
     except:
         return None
 
-
 def get_admin_by_username(username):
     return Admin.query.filter_by(username=username).first()
 
@@ -35,4 +34,3 @@ def update_admin(id, username):
         db.session.add(admin)
         return db.session.commit()
     return None
-    

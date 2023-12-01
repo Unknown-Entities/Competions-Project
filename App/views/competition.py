@@ -24,29 +24,25 @@ comp_views = Blueprint('comp_views', __name__, template_folder='../templates')
 
 ##return the json list of competitions fetched from the db
 @comp_views.route('/competitions', methods=['GET'])
+@jwt_required()
 def get_competitons():
     competitions = get_all_competitions_json()
     return (jsonify(competitions),200) 
 
 ##add new competition to the db
 @comp_views.route('/competitions', methods=['POST'])
+@jwt_required()
 def add_new_comp():
-    data = request.json
-    response = create_competition(data['name'], data['location'])
-    if response:
-        return (jsonify({'message': f"competition created"}), 201)
-    return (jsonify({'error': f"error creating competition"}),500)
-
-
-@comp_views.route('/competitions/user', methods=['POST'])
-def add_comp_user():
-    data = request.json
-    response = add_new_user()
-    if response: 
-        return (jsonify({'message': f"user added to competition"}),201)
-    return (jsonify({'error': f"error adding user to competition"}),500)
+    if jwt_current_user.user_type == "Admin":
+        data = request.json
+        response = create_competition(data['name'], data['location'])
+        if response:
+            return (jsonify({'message': f"competition created"}), 201)
+        return (jsonify({'error': f"error creating competition"}),500)
+    return (jsonify({'error': f"only admins can create competitions"}),500)
 
 @comp_views.route('/competitions/<int:id>', methods=['GET'])
+@jwt_required()
 def get_competition(id):
     print(id)
     competition = get_competition_by_id(id)
@@ -55,17 +51,15 @@ def get_competition(id):
     return (jsonify(competition.toDict()),200)
 
 @comp_views.route('/competitions/results', methods=['POST'])
+@jwt_required()
 def add_comp_results():
-    data = request.json
-    response = add_user_to_comp(data['user_id'],data['comp_id'], data['rank'])
-    if response:
-        return (jsonify({'message': f"results added successfully"}),201)
-    return (jsonify({'error': f"error adding results"}),500)
-
-@comp_views.route('/rankings/<int:id>', methods =['GET'])
-def get_rankings(id):
-    ranks = get_user_rankings(id)
-    return (jsonify(ranks),200)
+    if jwt_current_user.user_type == "Admin":
+        data = request.json
+        response = add_user_to_comp(data['user_id'],data['comp_id'], data['rank'])
+        if response:
+            return (jsonify({'message': f"results added successfully"}),201)
+        return (jsonify({'error': f"error adding results"}),500)
+    return (jsonify({'error': f"only admins can add results"}),500)
 
 
 

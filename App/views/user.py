@@ -10,6 +10,9 @@ from.index import index_views
 
 from App.controllers import (
     create_user,
+    create_profile,
+    add_ranking,
+    get_user_by_username,
     jwt_authenticate, 
     get_all_users,
     get_all_users_json,
@@ -29,6 +32,7 @@ def get_user_page():
 #this was commented off
 
 @user_views.route('/api/users', methods=['GET'])
+@jwt_required()
 def get_users_action():
     users = get_all_users_json()
     return jsonify(users)
@@ -37,42 +41,8 @@ def get_users_action():
 def create_user_endpoint():
     data = request.json
     create_user(data['username'], data['password'], data['email'])
+    user_id = get_user_by_username(data['username'])
+    create_profile(user_id.id, data['username'])
+    add_ranking(user_id.id, data['username'])
     return jsonify({'message': f"user {data['username']} created"})
-
-@user_views.route('/users', methods=['POST'])
-def create_user_action():
-    data = request.form
-    flash(f"User {data['username']} created!")
-    create_user(data['username'], data['password'])
-    return redirect(url_for('user_views.get_user_page'))
-
-@user_views.route('/static/users', methods=['GET'])
-def static_user_page():
-  return send_from_directory('static', 'static-user.html')
-
-
-@user_views.route('/normal', methods=['POST'])
-def create_normal_user_action():
-    data = request.json
-    check = User.query.filter_by(username=data['username']).first()
-    if not check:
-        result = create_user(username=data['username'], password=data['password'], email=data['email'])
-        if result:
-            return jsonify({"message": f"User created with id {result.id}"}), 201
-    return jsonify({"error": f"Username {data['username']} already exists "}), 500
-
-
-@user_views.route('/users/rankings', methods=['GET'])
-def get_user_rankings():
-    users = get_ranked_users()
-    rankings = [u.to_dict() for u in users]
-    return jsonify(rankings)
-
-@user_views.route('/users/competitions/<int:id>', methods = ['GET'])
-def get_user_comps(id):
-    data = request.form
-    # comps = get_user_competitions(data['id'])
-    comps = get_user_competitions(id)
-    # userCompetitions =  [c.toDict() for c in comps]
-    return jsonify(comps)
     

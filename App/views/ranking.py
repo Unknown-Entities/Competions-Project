@@ -26,3 +26,9 @@ def get_rankings_action():
 def get_top_rankings_action():
     check = get_top_20_users_rank()
     return jsonify(check), 200
+
+@comp_views.route('/rankings/<int:id>', methods =['GET'])
+@jwt_required()
+def get_rankings(id):
+    ranks = get_user_rankings(id)
+    return (jsonify(ranks),200)

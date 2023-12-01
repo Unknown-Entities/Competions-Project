@@ -80,7 +80,6 @@ class CompIntegrationTests(unittest.TestCase):
 
         for competitions_json in competitions:
             del competitions_json["date"]
-            del competitions_json["hosts"]
             del competitions_json["participants"]
             cleaned_competitions.append(competitions_json)
         

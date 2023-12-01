@@ -14,8 +14,9 @@ class User(db.Model, UserMixin):
     admins = db.relationship("Admin", lazy=True, backref=db.backref("user"), cascade="all, delete-orphan")
     notifications = db.relationship("Notification", lazy=True, backref=db.backref("user"), cascade="all, delete-orphan")
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, user_type, password, email):
         self.username = username
+        self.user_type = user_type
         self.email = email
         self.set_password(password)        
 
@@ -23,6 +24,7 @@ class User(db.Model, UserMixin):
         return{
             'id': self.id,
             'username': self.username,
+            'user type': self.user_type,
             'email': self.email
         }
 

@@ -121,7 +121,6 @@ class UsersIntegrationTests(unittest.TestCase):
 
         for usercomp in comp:
             del usercomp["date"]
-            del usercomp["hosts"]
             del usercomp["participants"]
             user_competitions.append(usercomp)
         

@@ -8,7 +8,7 @@ class Admin(User):
     def __init__(self, username, password, email):
         self.username = username
         self.set_password(password)
-        self.user_type = "admin"
+        self.user_type = "Admin"
         self.email = email
 
 

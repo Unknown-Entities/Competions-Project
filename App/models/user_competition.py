@@ -1,26 +1,20 @@
 from .user import User
 from App.database import db 
 
-class User_Competition(User):
-    __tablename__ = 'user_competition'
-    id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
-    profile = db.Column(db.Integer, db.ForeignKey('profile.ID'), nullable=False)
+class User_Competition(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    profile = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comp_id = db.Column(db.Integer, db.ForeignKey('competition.id'), nullable=False)
+    rank = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, username, password, email):
-        self.username = username
-        self.set_password(password)
-        self.user_type = "user_competition"
-        self.email = email
-
-
-    def __repr__(self):
-        return f'<user_competition {self.id} {self.username} {self.email}>'
+    def __init__(self, profile, comp_id, rank):
+        self.profile = profile
+        self.comp_id = comp_id
+        self.rank = rank
     
     def toJSON(self):
         return{
-            'id': self.id,
-            'username': self.username,
-            'type': 'user_competition',
-            'email': self.email
+            'Profile ID': self.profile,
+            'Competition ID': self.comp_id,
+            'Rank': self.rank
         }

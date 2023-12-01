@@ -1,6 +1,6 @@
-from App.models import User, User_Competition
-#Competition,User, 
+from App.models import User, User_Competition, Competition
 from App.database import db
+from .ranking import get_rank, calculate_ranking_points, calculate_ranking
 
 def create_competition_user(username, password, email): 
     newUser = User_Competition(username=username, password=password, email=email)
@@ -41,14 +41,21 @@ def get_user_competitions(user_id):
 def add_user_to_comp(user_id, comp_id, rank):
     user = User.query.get(user_id)
     comp = Competition.query.get(comp_id)
-    user_comp = User_Competition.query.filter_by(user_id=user.id, comp_id=comp.id).first()
+    user_comp = User_Competition.query.filter_by(profile=user.id, comp_id=comp.id).first()
+    if user.user_type == "Admin":
+        return False
     if user_comp:
         return False        
     if user and comp:
-        user_comp = User_Competition(user_id=user.id, comp_id=comp.id, rank = rank)
+        user_comp = User_Competition(profile=user.id, comp_id=comp.id, rank = rank)
         try:
+            ranking = get_rank(user_id)
+            score = calculate_ranking_points(int(rank))
+            ranking.points += int(score)
             db.session.add(user_comp)
+            db.session.add(ranking)
             db.session.commit()
+            calculate_ranking()
             return True
         except Exception as e:
             print("FAILURE")

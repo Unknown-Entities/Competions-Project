@@ -2,7 +2,7 @@ from App.models import User, Competition, User_Competition
 from App.database import db
 
 def create_user(username, password, email):
-    newuser = User(username=username, password=password, email=email)
+    newuser = User(username=username, user_type="Competitor", password=password, email=email)
     try:
         db.session.add(newuser)
         db.session.commit()
