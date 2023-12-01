@@ -22,10 +22,10 @@ class User(db.Model, UserMixin):
 
     def get_json(self):
         return{
-            'ID': self.id,
-            'Username': self.username,
-            'User Type': self.user_type,
-            'Email': self.email
+            'id': self.id,
+            'username': self.username,
+            'user_type': self.user_type,
+            'email': self.email
         }
 
     def set_password(self, password):
