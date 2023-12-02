@@ -1,4 +1,5 @@
 import os, tempfile, pytest, logging, unittest
+from unittest.mock import patch
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
@@ -17,7 +18,11 @@ from App.controllers import (
     get_user_competitions,
     create_competition,
     add_user_to_comp,
-    get_user_rankings
+    get_user_rankings,
+    generate_notification,
+    notify,
+    get_all_notifications,
+    get_all_notifications_json
 )
 
 
@@ -142,4 +147,28 @@ class UsersIntegrationTests(unittest.TestCase):
         user = create_admin("maraval", "maravalpass", "maraval@gmail.com")
         comp = user.add_comp("walktime", "2 dabloons", "NA", 21)
         self.assertIsNotNone(comp, "")
-    
+   
+    def test_send_notification_success(self):
+        notifi_service = notify("1", "The top 20 rankings have changed")
+        user_id = get_all_users_json()
+        message = "Success !! These are the new rankings!"
+
+        with patch('App.models.Notification.notify') as mock_notification:
+            result = notifi_service.notify(user_id, message)
+
+        mock_notification.assert_called_once_with(user_id, message)
+        self.assertTrue(result)
+
+    def test_send_notification_failure(self):
+        notifi_service = notify("1", "The top 20 rankings have changed")
+        user_id = get_all_users_json()
+        message = "Failed to send notification."
+
+        # Act
+        with patch('App.models.Notification.notify') as mock_notification:
+            mock_notification.side_effect = Exception("Notification was unsucessfull in notifying uers of rank change")
+            result = notifi_service.notify(user_id, message)
+
+        # Assert
+        mock_notification.assert_called_once_with(user_id, message)
+        self.assertFalse(result)
