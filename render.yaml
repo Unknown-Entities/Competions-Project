@@ -2,7 +2,7 @@ services:
 - type: web
   name: competitions-platform
   env: python
-  repo: https://github.com/Ara-Ara-Arabiansss/SoftwareEngineering.git
+  repo: https://github.com/Unknown-Entities/Competitions-Platform-Project.git
   plan: free
   branch: main
   healthCheckPath: /healthcheck
