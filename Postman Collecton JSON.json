@@ -8,6 +8,88 @@
 	},
 	"item": [
 		{
+			"name": "Initialize Database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"message\": \"The Database has been successfully initialized!\"\r",
+							"};\r",
+							"\r",
+							"pm.test(\r",
+							"    `Should return an initialization message`, \r",
+							"    function() {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    }\r",
+							");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/init",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Initialize Database Copy",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/init",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"init"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "67"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 02 Dec 2023 06:32:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"The Database has been successfully initialized!\"\n}"
+				}
+			]
+		},
+		{
 			"name": "Competitor Sign Up",
 			"event": [
 				{
@@ -1727,24 +1809,24 @@
 							"    {\r",
 							"      \"type\": \"object\",\r",
 							"      \"properties\": {\r",
-							"        \"ID\": {\r",
+							"        \"id\": {\r",
 							"          \"type\": \"integer\"\r",
 							"        },\r",
-							"        \"Username\": {\r",
+							"        \"username\": {\r",
 							"          \"type\": \"string\"\r",
 							"        },\r",
-							"        \"Email\": {\r",
+							"        \"email\": {\r",
 							"          \"type\": \"string\"\r",
 							"        },\r",
-							"        \"User Type\": {\r",
+							"        \"user_type\": {\r",
 							"          \"type\": \"string\"\r",
 							"        }\r",
 							"      },\r",
 							"      \"required\": [\r",
-							"        \"ID\",\r",
-							"        \"Username\",\r",
-							"        \"Email\",\r",
-							"        \"User Type\"\r",
+							"        \"id\",\r",
+							"        \"username\",\r",
+							"        \"email\",\r",
+							"        \"user_type\"\r",
 							"      ]\r",
 							"    }\r",
 							"  ]\r",

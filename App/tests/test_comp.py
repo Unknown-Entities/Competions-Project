@@ -79,6 +79,31 @@ class CompIntegrationTests(unittest.TestCase):
         cleaned_competitions = []
 
         for competitions_json in competitions:
+            del competitions_json["Date"]
+            del competitions_json["Participants"]
+            cleaned_competitions.append(competitions_json)
+        
+        expected_list = [{"ID": 1, "Name": "Walktime", "Location": "Port of Spain"}]
+        self.assertListEqual(expected_list, cleaned_competitions)
+
+
+    def test_get_competition_by_id(self):
+        Competition_json = get_competition_by_id(1).get_json()
+        self.assertDictEqual(Competition_json, {"id":1, "name":"Walktime", "location": "Port of Spain"})
+
+
+
+class CompIntegrationTests(unittest.TestCase):
+
+    def test_create_competition(self):
+        assert create_competition("Walktime", "Port of Spain")
+
+
+    def test_get_comp_list(self):
+        competitions = get_all_competitions_json()
+        cleaned_competitions = []
+
+        for competitions_json in competitions:
             del competitions_json["date"]
             del competitions_json["participants"]
             cleaned_competitions.append(competitions_json)

@@ -6,6 +6,14 @@ from .profile import get_profile
 def get_rank(id):
     return Ranking.query.get(id)
 
+def create_ranking(profile_id, name, rank, points):
+    ranking = Ranking(profile_id=profile_id, name=name, rank=rank, points=points)
+    try:
+        db.session.add(ranking)
+        db.session.commit()
+        return ranking
+    except:
+        return None
 
 def calculate_ranking():
     ranks = get_rankings()
